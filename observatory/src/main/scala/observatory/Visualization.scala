@@ -44,9 +44,6 @@ object Visualization {
 
     val distance: Double = RADIOUS * c
 
-//    if(distance.isNaN)
-//      println("stop")
-
     distance
   }
 
@@ -85,9 +82,6 @@ object Visualization {
         })
 
     val result = results._1 / (results._2.isNaN match {case true => 1 case false => results._2})
-
-//    if(result.isNaN)
-//      println("stop")
 
     result
   }

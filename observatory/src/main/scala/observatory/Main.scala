@@ -5,12 +5,12 @@ import scala.collection.immutable
 
 object Main extends App {
 
-  val temperatures: Iterable[(Location, Double)] =
-    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1975, "stations.csv", "1975.csv"))
+//  val temperatures: Iterable[(Location, Double)] =
+//    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1975, "stations.csv", "1975.csv"))
 
-//  println(result.size)
+//  println(temperatures.size)
 //
-//  result.take(10).foreach(t => println(t))
+//  temperatures.take(10).foreach(t => println(t))
 //
 //  val colors: Seq[(Double, Color)] =
 //    Seq((60.0, Color(255,255,255)),(32.0, Color(255,0,0)),(12.0, Color(255,255,0)),
@@ -21,5 +21,13 @@ object Main extends App {
 //
 //  Visualization.visualize(temperatures, colors)
 
-  Interaction.generateTiles(Seq((1975, temperatures)), Interaction.generateImage)
+//  Interaction.generateTiles(Seq((1975, temperatures)), Interaction.generateImage)
+//  val f: (Int, Int) => Double = Manipulation.makeGrid(temperatures)
+//  val res: Double = f(3,2)
+//  println(res)
+
+
+
+
+
 }
