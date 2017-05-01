@@ -164,9 +164,8 @@ object Visualization {
 
     val pixels = new Array[Pixel](SIZE_IMAGE)
     var i = 0
-//    for(y <- -90 to 89; x <- -180 to 179) {
-    for(y <- 90 to -89 by -1; x <- -180 to 179) {
-      val color: Color = interpolateColor(colors, predictTemperature(temperatures, Location(y, x)))
+    for(lat <- 90 to -89 by -1; lon <- -180 to 179) {
+      val color: Color = interpolateColor(colors, predictTemperature(temperatures, Location(lat, lon)))
       pixels(i) = Pixel(color.red, color.green, color.blue, ALPHA)
       i = i + 1
     }

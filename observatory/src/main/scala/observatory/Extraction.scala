@@ -11,8 +11,6 @@ object Extraction {
 
   import org.apache.spark.sql.SparkSession
 
-//  System.setProperty("hadoop.home.dir", "C:/winutils")
-
   val T_EMPTY: Double = fahrenheitToCelsius(9999.9)
   val numPartitions = 4
 
@@ -84,7 +82,7 @@ object Extraction {
         .reduceByKey((v1,v2) => (v1 ++ v2))
         .map(v => v._2)
         .collect()
-        .reduce((a, b) => a ++ b)
+        .foldLeft(Seq[(LocalDate, Location, Double)]())((a, b) => a ++ b)
 
     result
   }

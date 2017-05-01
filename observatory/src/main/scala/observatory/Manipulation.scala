@@ -5,6 +5,7 @@ package observatory
   */
 object Manipulation {
 
+
   /**
     * @param temperatures Known temperatures
     * @return A function that, given a latitude in [-89, 90] and a longitude in [-180, 179],
@@ -13,7 +14,14 @@ object Manipulation {
   def makeGrid(temperatures: Iterable[(Location, Double)]): (Int, Int) => Double = {
     import observatory.Visualization._
 
-    (lat: Int, lon: Int) => predictTemperature(temperatures, Location(lat, lon))
+    var grid = scala.collection.mutable.Map[Location, Double]()
+
+    for(lat <- 90 to -89 by -1; lon <- -180 to 179) {
+      grid += (Location(lat, lon) ->
+        predictTemperature(temperatures, Location(lat, lon)))
+    }
+
+    (lat: Int, lon: Int) => grid(Location(lat, lon))
   }
 
   /**
@@ -25,7 +33,13 @@ object Manipulation {
 
     def avg(ts: Iterable[Double]) = ts.sum.toString.toDouble / ts.size
 
-    (lat: Int, lon: Int) => avg(temperaturess.map(t => t.toMap.find(_._1 == Location(lat, lon)).get._2))
+    (lat: Int, lon: Int) => avg(
+      temperaturess.map(
+        t => {
+          makeGrid(t)(lat, lon)
+        }
+      )
+    )
 
   }
 
@@ -35,19 +49,10 @@ object Manipulation {
     * @return A sequence of grids containing the deviations compared to the normal temperatures
     */
   def deviation(temperatures: Iterable[(Location, Double)], normals: (Int, Int) => Double): (Int, Int) => Double = {
-    val dev =
+    val grid = makeGrid(temperatures)
       (lat: Int, lon: Int) => {
-        val temperature: Double = temperatures.toMap.find(_._1 == Location(lat, lon)).get._2
-        val mean: Double = normals(lat, lon)
-        val c: Double = Math.pow(temperature - mean, 2)
-        val d: Double = 1.00 / (temperatures.size - 1)
-
-        val e = Math.sqrt(d * c)
-        e
+          grid(lat, lon) - normals(lat, lon)
       }
-    dev
   }
-
-
 }
 

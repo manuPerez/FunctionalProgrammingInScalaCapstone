@@ -5,8 +5,8 @@ import scala.collection.immutable
 
 object Main extends App {
 
-//  val temperatures: Iterable[(Location, Double)] =
-//    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1975, "stations.csv", "1975.csv"))
+  val temperatures: Iterable[(Location, Double)] =
+    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1975, "stations.csv", "1975.csv"))
 
 //  println(temperatures.size)
 //
@@ -26,8 +26,15 @@ object Main extends App {
 //  val res: Double = f(3,2)
 //  println(res)
 
+//  val grid: (Int, Int) => Double = Manipulation.makeGrid(temperatures)
+//
+//  println(grid(90, -180))
 
+  val result: (Int, Int) => Double = Manipulation.average(Seq(temperatures))
+//
+//  println(result(90,-180))
+//
+  val dev: (Int, Int) => Double = Manipulation.deviation(temperatures, result)
 
-
-
+  println(dev(90, -180))
 }
