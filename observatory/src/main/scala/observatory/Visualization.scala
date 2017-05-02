@@ -17,34 +17,24 @@ object Visualization {
   val RADIOUS = 6371 // radious of The Earth
   val SIZE_IMAGE = 360 * 180
   val ALPHA = 127
+  val min_points = 8
 
   def toRad(value: Double): Double = value * Math.PI / 180
 
   /**
-    * Haversine Distance
+    * Great Circle Distance
     * @param loc1 Initial Location
     * @param loc2 Final Location
-    * @return distance in kms between loc1 and loc2
+    * @return distance between loc1 and loc2
     */
-  def getDistance(loc1: Location, loc2: Location): Double = {
-    val latDistance: Double = toRad(loc2.lat - loc1.lat)
-    val lonDistance: Double = toRad(loc2.lon - loc1.lon)
+  def greatCircleDistance(loc1: Location, loc2: Location): Double = {
+    val a = Math.sin(
+      toRad(loc1.lat))*Math.sin(toRad(loc2.lat)) +
+      Math.cos(toRad(loc1.lat))*Math.cos(toRad(loc2.lat))*Math.cos(toRad(loc1.lon - loc2.lon))
 
-    val a: Double = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
-            Math.cos(toRad(loc1.lat)) * Math.cos(toRad(loc2.lat)) *
-            Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2)
+    val fixedA = if (a > 1) 1 else if (a < -1) -1 else a
 
-    val c: Double =
-      2 * Math.atan2(
-        Math.sqrt(a),
-        Math.sqrt(1-a).isNaN match {
-          case true => 0
-          case false => Math.sqrt(1-a)
-        })
-
-    val distance: Double = RADIOUS * c
-
-    distance
+    Math.acos(fixedA)
   }
 
   /**
@@ -54,12 +44,10 @@ object Visualization {
     */
   def predictTemperature(temperatures: Iterable[(Location, Double)], location: Location): Double = {
 
-    val min_points = 8
-
     val points: Iterable[(Double, Double)] =
       temperatures
         .map(
-          t => (getDistance(t._1, location), t._2)
+          t => (greatCircleDistance(t._1, location), t._2)
         )
         .toList
         .sortBy(a => a._1)
@@ -116,7 +104,7 @@ object Visualization {
     if(!exist.isEmpty)
       exist.get._2
     else {
-      val pointsSorted: List[(Double, Color)] = points.toList.sortBy(v => v._1)
+      val pointsSorted: List[(Double, Color)] = points.par.toList.sortBy(v => v._1)
 
       val valueAnt: (Double, Color) = getAnt(pointsSorted, value)
       val valuePos: (Double, Color) = getPos(pointsSorted, value)

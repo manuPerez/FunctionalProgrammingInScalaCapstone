@@ -1,5 +1,7 @@
 package observatory
 
+import scala.collection.parallel.ParIterable
+
 /**
   * 4th milestone: value-added information
   */
@@ -31,10 +33,10 @@ object Manipulation {
     */
   def average(temperaturess: Iterable[Iterable[(Location, Double)]]): (Int, Int) => Double = {
 
-    def avg(ts: Iterable[Double]) = ts.sum.toString.toDouble / ts.size
+    def avg(ts: ParIterable[Double]) = ts.sum.toString.toDouble / ts.size
 
     (lat: Int, lon: Int) => avg(
-      temperaturess.map(
+      temperaturess.par.map(
         t => {
           makeGrid(t)(lat, lon)
         }
@@ -49,10 +51,12 @@ object Manipulation {
     * @return A sequence of grids containing the deviations compared to the normal temperatures
     */
   def deviation(temperatures: Iterable[(Location, Double)], normals: (Int, Int) => Double): (Int, Int) => Double = {
+
     val grid = makeGrid(temperatures)
-      (lat: Int, lon: Int) => {
-          grid(lat, lon) - normals(lat, lon)
-      }
+    (lat: Int, lon: Int) => {
+      grid(lat, lon) - normals(lat, lon)
+    }
+
   }
 }
 

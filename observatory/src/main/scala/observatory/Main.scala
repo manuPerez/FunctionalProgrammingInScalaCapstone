@@ -5,10 +5,32 @@ import scala.collection.immutable
 
 object Main extends App {
 
-  val temperatures: Iterable[(Location, Double)] =
-    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1975, "stations.csv", "1975.csv"))
+//  val temperatures1975: Iterable[(Location, Double)] =
+//    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1975, "stations.csv", "1975.csv"))
+//
+//  val temperatures1976: Iterable[(Location, Double)] =
+//    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1976, "stations.csv", "1976.csv"))
+//
+//  val temperatures1977: Iterable[(Location, Double)] =
+//    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1977, "stations.csv", "1977.csv"))
+//
+//  val temperatures1978: Iterable[(Location, Double)] =
+//    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1978, "stations.csv", "1978.csv"))
+//
+//  val temperatures1979: Iterable[(Location, Double)] =
+//    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1979, "stations.csv", "1979.csv"))
+//
+//  val temperatures1980: Iterable[(Location, Double)] =
+//    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1980, "stations.csv", "1980.csv"))
+//
+//  val temperatures1981: Iterable[(Location, Double)] =
+//    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1981, "stations.csv", "1981.csv"))
+//
+//  val temperatures1991: Iterable[(Location, Double)] =
+//    Extraction.locationYearlyAverageRecords(Extraction.locateTemperatures(1991, "stations.csv", "1991.csv"))
 
-//  println(temperatures.size)
+
+  //  println(temperatures.size)
 //
 //  temperatures.take(10).foreach(t => println(t))
 //
@@ -19,7 +41,7 @@ object Main extends App {
 //
 //  println(Visualization.interpolateColor(List((0.0,Color(255,0,0)), (2.147483647E9,Color(0,0,255))), 5.3687091175E8))
 //
-//  Visualization.visualize(temperatures, colors)
+//  Visualization.visualize(temperatures1975, colors)
 
 //  Interaction.generateTiles(Seq((1975, temperatures)), Interaction.generateImage)
 //  val f: (Int, Int) => Double = Manipulation.makeGrid(temperatures)
@@ -30,11 +52,16 @@ object Main extends App {
 //
 //  println(grid(90, -180))
 
-  val result: (Int, Int) => Double = Manipulation.average(Seq(temperatures))
+//  val averages: (Int, Int) => Double =
+//    Manipulation
+//      .average(
+//        Seq(temperatures1975/*, temperatures1976, temperatures1977, temperatures1978,
+//            temperatures1979, temperatures1980, temperatures1981*/)
+//      )
 //
 //  println(result(90,-180))
 //
-  val dev: (Int, Int) => Double = Manipulation.deviation(temperatures, result)
+//  val deviation1991: (Int, Int) => Double = Manipulation.deviation(temperatures1991, averages)
 
-  println(dev(90, -180))
+//  println(deviation1991(90, -180))
 }

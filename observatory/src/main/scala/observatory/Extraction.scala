@@ -12,7 +12,7 @@ object Extraction {
   import org.apache.spark.sql.SparkSession
 
   val T_EMPTY: Double = fahrenheitToCelsius(9999.9)
-  val numPartitions = 4
+  val numPartitions = 8
 
   val spark =
     SparkSession
@@ -114,6 +114,8 @@ object Extraction {
       preGrouped
         .groupByKey()
         .map(v => v._2)
+//        .collect()
+//        .foldLeft(Seq[(Location, Double)]())((v1, v2) => v1 ++ v2)
         .reduce((v1, v2) => v1 ++ v2)
 
     result

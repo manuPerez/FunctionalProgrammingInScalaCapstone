@@ -52,18 +52,20 @@ class VisualizationTest extends FunSuite with Checkers {
     assert(interpolateColor(colors, 6) == Color(128, 255, 128))
   }
 
-  test("Get Distance 1") {
-    val newYork = Location(40.70597954587119, -73.9780035)
-    val paris = Location(48.858877666233724, 2.3475568999999723)
-
-    assert(getDistance(newYork, paris) == 5835.378443788049)
+  test("getDistance test (extreme case 1)") {
+    assert(greatCircleDistance(Location(-12.0, 85.0), Location(12.0, -95.0)) == math.Pi)
   }
 
-  test("Get Distance 2") {
+  test("Get Distance New York - Paris") {
+    val newYork = Location(40.70597954587119, -73.9780035)
+    val paris = Location(48.858877666233724, 2.3475568999999723)
+    assert(greatCircleDistance(newYork, paris) == 0.9159281814139144)
+  }
+
+  test("Get Distance London - Paris") {
     val london = Location(51.528868434293244, -0.10161819999996169)
     val paris = Location(48.858877666233724, 2.3475568999999723)
-
-    assert(getDistance(london, paris) == 344.25031083855873)
+    assert(greatCircleDistance(london, paris) == 0.05403395241540504)
   }
 
   test("Predict Temperature 1") {
@@ -78,7 +80,7 @@ class VisualizationTest extends FunSuite with Checkers {
       /*bruselas*/(Location(50.85501203497024, 4.375389949999999), 0.0))
 
     assert(predictTemperature(temperatures,
-      Location(48.858877666233724, 2.3475568999999723)) == 4.44356069376553)
+      Location(48.858877666233724, 2.3475568999999723)) == -6.005544862287112)
   }
 
   test("Predict Temperature 2") {
@@ -93,7 +95,7 @@ class VisualizationTest extends FunSuite with Checkers {
       /*bruselas*/(Location(50.85501203497024, 4.375389949999999), 0.0))
 
     assert(predictTemperature(temperatures,
-      Location(37.75771992816863, -122.43760000000003)) == -4.264044353338739)
+      Location(37.75771992816863, -122.43760000000003)) == 5.936880795438021)
   }
 
   test("Predict Temperature 3") {
@@ -108,6 +110,6 @@ class VisualizationTest extends FunSuite with Checkers {
       /*bruselas*/(Location(50.85501203497024, 4.375389949999999), 0.0))
 
     assert(predictTemperature(temperatures,
-      Location(0.0, 0.0)) == -4.264044353338739)
+      Location(0.0, 0.0)) == -1.6838748917398698)
   }
 }
