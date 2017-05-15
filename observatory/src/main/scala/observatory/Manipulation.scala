@@ -1,7 +1,5 @@
 package observatory
 
-import scala.collection.parallel.ParIterable
-
 /**
   * 4th milestone: value-added information
   */
@@ -18,7 +16,7 @@ object Manipulation {
 
     var grid = scala.collection.mutable.Map[Location, Double]()
 
-    for(lat <- 90 to -89 by -1; lon <- -180 to 179) {
+    for(lat <- 90 to -90 by -1; lon <- -180 to 180) {
       grid += (Location(lat, lon) ->
         predictTemperature(temperatures, Location(lat, lon)))
     }
@@ -32,17 +30,12 @@ object Manipulation {
     * @return A function that, given a latitude and a longitude, returns the average temperature at this location
     */
   def average(temperaturess: Iterable[Iterable[(Location, Double)]]): (Int, Int) => Double = {
+    val grids: Iterable[(Int, Int) => Double] = temperaturess.map(makeGrid)
 
-    def avg(ts: ParIterable[Double]) = ts.sum.toString.toDouble / ts.size
-
-    (lat: Int, lon: Int) => avg(
-      temperaturess.par.map(
-        t => {
-          makeGrid(t)(lat, lon)
-        }
-      )
-    )
-
+    (latitude, longitude) => {
+      val temperatures: Iterable[Double] = grids.map(grid => grid(latitude, longitude))
+      temperatures.sum / temperatures.size
+    }
   }
 
   /**
@@ -51,12 +44,10 @@ object Manipulation {
     * @return A sequence of grids containing the deviations compared to the normal temperatures
     */
   def deviation(temperatures: Iterable[(Location, Double)], normals: (Int, Int) => Double): (Int, Int) => Double = {
-
     val grid = makeGrid(temperatures)
     (lat: Int, lon: Int) => {
       grid(lat, lon) - normals(lat, lon)
     }
-
   }
 }
 

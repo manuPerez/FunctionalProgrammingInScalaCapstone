@@ -13,6 +13,12 @@ class VisualizationTest extends FunSuite with Checkers {
 
   val scale = List((0.0, Color(0, 0, 255)))
 
+  val colors =
+    List((60.0, Color(255, 255, 255)), (32.0, Color(255, 0, 0)),
+      (12.0, Color(255, 255, 0)), (0.0, Color(0, 255, 255)),
+      (-15.0, Color(0, 0, 255)), (-27.0, Color(255, 0, 255)),
+      (-50.0, Color(33, 0, 107)), (-60.0, Color(0, 0, 0)))
+
   test("Color interpolation 1") {
     assert(interpolateColor(scale, -0.5) == Color(0, 0, 255))
   }
@@ -26,29 +32,14 @@ class VisualizationTest extends FunSuite with Checkers {
   }
 
   test("Color interpolation 4 (with unsorted scale of colors)") {
-    val colors =
-      List((60.0, Color(255, 255, 255)), (32.0, Color(255, 0, 0)),
-        (12.0, Color(255, 255, 0)), (0.0, Color(0, 255, 255)),
-        (-15.0, Color(0, 0, 255)), (-27.0, Color(255, 0, 255)),
-        (-50.0, Color(33, 0, 107)), (-60.0, Color(0, 0, 0)))
     assert(interpolateColor(colors, 12.0) == Color(255, 255, 0))
   }
 
   test("Color interpolation 5 (with unsorted scale of colors)") {
-    val colors =
-      List((60.0, Color(255, 255, 255)), (32.0, Color(255, 0, 0)),
-        (12.0, Color(255, 255, 0)), (0.0, Color(0, 255, 255)),
-        (-15.0, Color(0, 0, 255)), (-27.0, Color(255, 0, 255)),
-        (-50.0, Color(33, 0, 107)), (-60.0, Color(0, 0, 0)))
     assert(interpolateColor(colors, 62) == Color(255, 255, 255))
   }
 
   test("Color interpolation 6 (with unsorted scale of colors)") {
-    val colors =
-      List((60.0, Color(255, 255, 255)), (32.0, Color(255, 0, 0)),
-        (12.0, Color(255, 255, 0)), (0.0, Color(0, 255, 255)),
-        (-15.0, Color(0, 0, 255)), (-27.0, Color(255, 0, 255)),
-        (-50.0, Color(33, 0, 107)), (-60.0, Color(0, 0, 0)))
     assert(interpolateColor(colors, 6) == Color(128, 255, 128))
   }
 

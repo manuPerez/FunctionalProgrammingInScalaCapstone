@@ -6,6 +6,7 @@ import com.sksamuel.scrimage.ScaleMethod.FastScale
 import com.sksamuel.scrimage.{Image, Pixel}
 
 import scala.collection.immutable
+import scala.collection.parallel.mutable.ParArray
 import scala.reflect.io.Path
 
 /**
@@ -59,7 +60,7 @@ object Interaction {
       longCoord = tileLoc.lon + xCoord * longitudeSpacing
     } yield (xCoord, yCoord, Location(latCoord, longCoord))
 
-    val pixels = coords.toParArray.map{ case (xCoord, yCoord, location) =>
+    val pixels: ParArray[Pixel] = coords.toParArray.map{ case (xCoord, yCoord, location) =>
       val predTemp = predictTemperature(temperatures, location)
       val color = interpolateColor(colors, predTemp)
       Pixel(color.red, color.green, color.blue, ALPHA)
@@ -92,7 +93,6 @@ object Interaction {
     val path = Path(s"target/temperatures/$year/$zoom")
     path.createDirectory(failIfExists = false)
     tile(data, colors, zoom, x, y)
-//      .scaleTo(256, 256, FastScale)
       .output(new File(s"target/temperatures/$year/$zoom/$x-$y.png"))
   }
 

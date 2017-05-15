@@ -27,9 +27,7 @@ class ManipulationTest extends FunSuite with Checkers {
     }
     val temps: Seq[mutable.Map[Location, Double]] = Seq(grid)
     val s = temperaturess ++ temps
-//    println(grid.size + " : " + temps.size)
     temperaturess = s
-//    println(temperaturess.size)
   }
 
 //  test("makeGrid 1") {

@@ -15,6 +15,8 @@ import Implicits._
 object JSMain extends js.JSApp {
 
   def main(): Unit = {
+
+
     val availableLayers = Interaction2.availableLayers
     val (radioButtonElement, selectedLayer) = makeRadioButtons(availableLayers)
     val (sliderElement, selectedYear) = makeSlider(selectedLayer)
