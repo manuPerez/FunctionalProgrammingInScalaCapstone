@@ -1,5 +1,6 @@
 package observatory
 
+import observatory.Visualization.predictTemperature
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
@@ -33,13 +34,22 @@ class ManipulationTest extends FunSuite with Checkers {
 //  test("makeGrid 1") {
 //    assert(makeGrid(temperatures = ))
 //  }
-  test("Average 1") {
-    assert(average(temperaturess)(70, -160) == 13.508901166359683)
-  }
-
-//  test("Average 2") {
-//    assert(average(temperaturess)(52,24) == 6.775462962962692)
+//  test("Average 1") {
+//    assert(average(temperaturess)(70, -160) == 13.508901166359683)
 //  }
+
+  test("Error línea 33") {
+//    val allYearTemperatures: Seq[(Int, Iterable[(Location, Double)])] = for{
+//      year <- 1975 until 2016
+//    } yield (year, Extraction.locationYearlyAverageRecords(
+//      Extraction.locateTemperatures(year, "stations.csv", s"$year.csv")))
+//
+//    val test: Seq[(Int, Double)] = allYearTemperatures.map(t => (t._1, predictTemperature(t._2, Location(90.0, -180.0))))
+//
+//    test.foreach(v => println(v._1 + " -> " + v._2))
+
+    assert(1 == 1)
+  }
 
 //  test("Deviation 1") {
 //    assert(deviation(temperatures, average(temperaturess))(33, 36) == 2.411295273173711)

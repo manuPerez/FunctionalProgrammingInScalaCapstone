@@ -20,7 +20,7 @@ object Visualization2 {
     * @return A guess of the value at (x, y) based on the four known values, using bilinear interpolation
     *         See https://en.wikipedia.org/wiki/Bilinear_interpolation#Unit_Square
     */
-  def   bilinearInterpolation(
+  def bilinearInterpolation(
     x: Double,
     y: Double,
     d00: Double,
@@ -28,11 +28,12 @@ object Visualization2 {
     d10: Double,
     d11: Double
   ): Double = {
-    val f1 = ((1 - x) * d00) + (x * d01)
-    val f2 = ((1 - x) * d10) + (x * d11)
-
-    val fFinal = ((1 - y) * f1) + (y * f2)
-    fFinal
+//    val f1 = (((1 - x)/(1 - 0)) * d00) + (x * d01)
+//    val f2 = ((1 - x) * d10) + (x * d11)
+//
+//    val fFinal = ((1 - y) * f1) + (y * f2)
+//    fFinal
+    d00*(1 - x)*(1 - y) + d10*x*(1 - y) + d01*(1 - x)*y + d11*x*y
   }
 
   /**

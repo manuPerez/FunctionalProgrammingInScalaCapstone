@@ -28,9 +28,8 @@ object Visualization {
     * @return distance between loc1 and loc2
     */
   def greatCircleDistance(loc1: Location, loc2: Location): Double = {
-    val a = Math.sin(
-      toRad(loc1.lat))*Math.sin(toRad(loc2.lat)) +
-      Math.cos(toRad(loc1.lat))*Math.cos(toRad(loc2.lat))*Math.cos(toRad(loc1.lon - loc2.lon))
+    val a = Math.sin(toRad(loc1.lat)) * Math.sin(toRad(loc2.lat)) +
+      Math.cos(toRad(loc1.lat)) * Math.cos(toRad(loc2.lat)) * Math.cos(toRad(loc1.lon - loc2.lon))
 
     val fixedA = if (a > 1) 1 else if (a < -1) -1 else a
 
@@ -53,11 +52,12 @@ object Visualization {
         .sortBy(a => a._1)
         .take(min_points)
 
-    val results: (Double, Double) = points
+    val results = points
       .map(
         v => {
-          val inv_dist = 1 / Math.pow(v._1, POTENCY) match {case 0 => 1 case _ => Math.pow(v._1, POTENCY)}
+          val inv_dist = 1 / (Math.pow(v._1, POTENCY) match {case 0.0 => 1 case _ => Math.pow(v._1, POTENCY)})
           val inv_dist_z = v._2 * inv_dist
+
           (inv_dist_z, inv_dist)
         }
       )
@@ -69,9 +69,16 @@ object Visualization {
           (sum_inv_dist_z, sum_inv_dist)
         })
 
-    val result = results._1 / (results._2.isNaN match {case true => 1 case false => results._2})
+    val result: Double =
+      (results._1.isNaN match {
+        case true => 1
+        case false => results._1}) /
+      (results._2.isNaN match {
+        case true => 1
+        case false => results._2})
 
-    result
+    points.toMap.getOrElse(0.0, result)
+
   }
 
   def getAnt(list: List[(Double, Color)], value: Double): (Double, Color) =
@@ -152,7 +159,7 @@ object Visualization {
 
     val pixels = new Array[Pixel](SIZE_IMAGE)
     var i = 0
-    for(lat <- 90 to -90 by -1; lon <- -180 to 180) {
+    for(lat <- 89 to -90 by -1; lon <- -180 to 179) {
       val color: Color = interpolateColor(colors, predictTemperature(temperatures, Location(lat, lon)))
       pixels(i) = Pixel(color.red, color.green, color.blue, ALPHA)
       i = i + 1

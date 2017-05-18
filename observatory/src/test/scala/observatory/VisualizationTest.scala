@@ -71,7 +71,7 @@ class VisualizationTest extends FunSuite with Checkers {
       /*bruselas*/(Location(50.85501203497024, 4.375389949999999), 0.0))
 
     assert(predictTemperature(temperatures,
-      Location(48.858877666233724, 2.3475568999999723)) == -6.005544862287112)
+      Location(48.858877666233724, 2.3475568999999723)) == 5.009121275404119)
   }
 
   test("Predict Temperature 2") {
@@ -86,7 +86,7 @@ class VisualizationTest extends FunSuite with Checkers {
       /*bruselas*/(Location(50.85501203497024, 4.375389949999999), 0.0))
 
     assert(predictTemperature(temperatures,
-      Location(37.75771992816863, -122.43760000000003)) == 5.936880795438021)
+      Location(37.75771992816863, -122.43760000000003)) == -0.48818243654428684)
   }
 
   test("Predict Temperature 3") {
@@ -101,6 +101,35 @@ class VisualizationTest extends FunSuite with Checkers {
       /*bruselas*/(Location(50.85501203497024, 4.375389949999999), 0.0))
 
     assert(predictTemperature(temperatures,
-      Location(0.0, 0.0)) == -1.6838748917398698)
+      Location(0.0, 0.0)) == 10.307879596080703)
+  }
+
+  test("getDistance test (extreme case 2)") {
+    assert(greatCircleDistance(Location(0.0, 0.0), Location(0.0, 0.0)) == 0.0)
+  }
+
+  test("Error línea 93") {
+    val temperatures: Seq[(Location, Double)] = Seq(
+            /*roma*/(Location(41.91022566604198, 12.535997900000098), 23.0),
+            /*madrid*/(Location(40.43807216375375, -3.6795366500000455), 18.0),
+            /*new york*/(Location(40.70597954587119, -73.9780035), -12.0),
+            /*buenos aires*/(Location(-34.61578211494823, -58.43332029999999), -5.0),
+            /*sidney*/(Location(-33.848716732561876, 150.93196309999996), -6.0),
+            /*berlín*/(Location(52.50786264022465, 13.426145399999996), 14),
+            /*londres*/(Location(51.528868434293244, -0.10161819999996169), 9),
+            /*bruselas*/(Location(50.85501203497024, 4.375389949999999), 0.0),
+            (Location(0.0, 0.0), -3.0))
+
+    println(predictTemperature(temperatures, Location(0.0, 0.0)))
+
+    assert(predictTemperature(temperatures,
+      Location(0.0, 0.0)) == -3.0)
+  }
+
+  test("Error línea 70 de errores4") {
+    val temperatures = Seq((Location(-7.0, -1.0), 11.0), (Location(77.0, -160.0), 18.0))
+
+    assert(predictTemperature(temperatures,
+      Location(90.0, -180.0)) == 17.87648778450616)
   }
 }
